@@ -45,6 +45,15 @@ class Quiz extends Component {
     }
   }
 
+  restarQuiz = () => {
+    this.setState(() => ({
+      quizPageCount: 1,
+      correctsCount: 0,
+      cardIsFlipped: false,
+      finished: false
+    }))
+  }
+
   render () {
     const { quizPageCount, cardIsFlipped, finished, correctsCount } = this.state
     const { deckData } = this.props
@@ -61,6 +70,19 @@ class Quiz extends Component {
           <View style={styles.cardContainer}>
             <Text style={styles.title}>Finish!</Text>
             <Text style={styles.label}>Your Score: {correctsCount}/{totalQuestions}, {score}% Good</Text>
+
+            <TouchableOpacity
+              style={[styles.submitBtn, {backgroundColor: green, marginTop: 20}]}
+              onPress={() => this.restarQuiz()}
+            >
+              <Text style={styles.submitBtnText}>Restart Quiz</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.submitBtn, {backgroundColor: green}]}
+              onPress={() => this.props.navigation.goBack()}
+            >
+              <Text style={styles.submitBtnText}>Back to Deck</Text>
+            </TouchableOpacity>
           </View>
         </View>
       )
@@ -77,10 +99,10 @@ class Quiz extends Component {
           }
           { cardIsFlipped == true
             ? <TouchableOpacity onPress={this.flipCard}>
-                <Text style={styles.label}>(Question)</Text>
+                <Text style={styles.label}>(Show Question)</Text>
               </TouchableOpacity>
             : <TouchableOpacity onPress={this.flipCard}>
-                <Text style={styles.label}>(Answer)</Text>
+                <Text style={styles.label}>(Show Answer)</Text>
               </TouchableOpacity>
           }
         </View>

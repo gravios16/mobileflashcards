@@ -33,7 +33,7 @@ class DeckDetail extends Component {
             { deckId: deckData.deckId }
           )}
         >
-          <Text style={styles.submitBtnText}>Start Quiz</Text>
+          <Text style={styles.submitBtnText}>Start a Quiz</Text>
         </TouchableOpacity>
       </View>
     )

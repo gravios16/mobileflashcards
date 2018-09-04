@@ -24,9 +24,10 @@ class AddDeck extends Component {
       title: ''
     }))
 
-    this.props.navigation.dispatch(NavigationActions.back({
-      key: 'AddDeck'
-    }))
+    this.props.navigation.navigate(
+      'DeckDetail',
+      { deckId: title }
+    )
 
     submitDeck({
       key: title,
@@ -50,7 +51,7 @@ class AddDeck extends Component {
         />
 
         <TouchableOpacity style={styles.submitBtn} onPress={this.submit}>
-          <Text style={styles.submitBtnText}>Submit</Text>
+          <Text style={styles.submitBtnText}>Create Deck</Text>
         </TouchableOpacity>
       </View>
     )

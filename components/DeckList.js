@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
-import { gray, orange, white } from '../utils/colors'
+import { Text, TouchableOpacity, StyleSheet, ScrollView, Animated } from 'react-native'
 import { fetchDeckResults } from '../utils/api'
 import { connect } from 'react-redux'
 import { receiveDecks } from '../actions'
+import AnimatedText from './AnimatedText'
 
 class DeckList extends Component {
 
@@ -14,6 +14,15 @@ class DeckList extends Component {
     .then((decks) => dispatch(receiveDecks(decks)))
   }
 
+  toDetail = (key) => {
+    return () => {
+        this.props.navigation.navigate(
+        'DeckDetail',
+        { deckId: key }
+      )
+    }
+  }
+
   render () {
 
     const { decks } = this.props
@@ -21,17 +30,7 @@ class DeckList extends Component {
     return (
       <ScrollView style={styles.deckContainer}>
         {Object.keys(decks).map((key) => (
-            <TouchableOpacity
-              key={key}
-              style={styles.deck}
-              onPress={ () => this.props.navigation.navigate(
-                'DeckDetail',
-                { deckId: key }
-              )}
-            >
-              <Text style={styles.deckName}>{decks[key].title}</Text>
-              <Text style={styles.deckCardNums}>({decks[key].questions.length} cards)</Text>
-            </TouchableOpacity>
+          <AnimatedText key={key} deck={decks[key]} toDetail={this.toDetail(key)}/>
         ))}
       </ScrollView>
     )
@@ -41,32 +40,6 @@ class DeckList extends Component {
 const styles = StyleSheet.create({
   deckContainer: {
     flex: 1
-  },
-  deck: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 120,
-    flex: 1,
-    margin: 10,
-    alignSelf: 'stretch',
-    backgroundColor: white,
-    borderRadius: 16,
-    padding: 5,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 17,
-  },
-  deckName: {
-    fontSize: 24,
-    color: orange,
-    marginBottom: 6
-  },
-  deckCardNums: {
-    color: gray
-  },
-  reset: {
-    textAlign: 'center',
-    color: gray
   }
 })
 
